@@ -86,6 +86,21 @@ Follow [these instructions](https://github.com/kuklinistvan/docker-anki-sync-ser
 Setting up Anki
 ---------------
 
+### Anki >= 2.1.28
+
+Create a new directory in [the add-ons folder][addons21] (name it something
+like ankisyncd), create a file named `__init__.py` containing the code below
+and put it in the `ankisyncd` directory.
+
+    import anki.sync, anki.hooks, aqt, os
+
+    addr = "http://127.0.0.1:27701/" # put your server address here
+    os.environ["SYNC_ENDPOINT"] = addr + "sync/"
+    os.environ["SYNC_ENDPOINT_MEDIA"] = addr + "msync/"
+    def resetHostNum():
+        aqt.mw.pm.profile['hostNum'] = None
+    anki.hooks.addHook("profileLoaded", resetHostNum)
+
 ### Anki 2.1
 
 Create a new directory in [the add-ons folder][addons21] (name it something
